@@ -1,0 +1,45 @@
+{% extends '-base.html' %}
+{% load widget_tweaks %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">Home</a>
+                    </li>
+                    <li class="active">LogOut</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="login-register-area pt-115 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                    <div class="login-register-wrapper">
+                        <div class="login-register-tab-list nav">
+                            <h4> LogOut </h4>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="login-form-container">
+                                    <div class="login-register-form">
+                                        <form id="logout" action="{% url 'account_logout' %}" method="post">
+                                            {% csrf_token %}
+                                            <p>Are you sure?!</p>
+                                            <div class="button-box">
+                                                <button type="submit">Logout</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,558 @@
+{% extends '-base.html' %}
+{% load tags %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}
+    {{ product }}{% translate "'s Dtail View" %}
+{% endblock %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">{% trans 'Home' %}</a>
+                    </li>
+                    <li class="active">{% trans 'Product Details' %} </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="product-details-area pt-120 pb-115">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-tab">
+                        <div class="pro-dec-big-img-slider">
+                            <div class="easyzoom-style">
+                                <div class="easyzoom easyzoom--overlay">
+                                    <a href="{{ product.main_cover.url }}">
+                                        <img src="{{ product.main_cover.url }}" alt="">
+                                    </a>
+                                </div>
+                                <a class="easyzoom-pop-up img-popup" href="{{ product.main_cover.url }}"><i
+                                        class="icon-size-fullscreen"></i></a>
+                            </div>
+                            {% if product.files %}
+                                {% for file in files.all %}
+                                    <div class="easyzoom-style">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a href="{{ file.file.url }}">
+                                                <img src="{{ file.file.url }}" alt="">
+                                            </a>
+                                        </div>
+                                        <a class="easyzoom-pop-up img-popup" href="{{ file.file.url }}"><i
+                                                class="icon-size-fullscreen"></i></a>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="product-dec-slider-small product-dec-small-style1">
+                            <div class="product-dec-small active">
+                                <img src="{{ product.main_cover.url }}" alt="">
+                            </div>
+                            {% if product.files %}
+                                {% for file in product.files.all %}
+                                    <div class="product-dec-small">
+                                        <img src="{{ file.file.url }}" alt="">
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="product-details-content pro-details-content-mrg">
+                        <h2>{{ product.title }}</h2>
+                        <div class="product-ratting-review-wrap">
+                            <div class="product-ratting-digit-wrap">
+                                {% if product.average_rate > 0 %}
+                                    <div class="product-ratting">
+                                        {% if product.average_rate < 1 and product.average_rate > 0 %}
+                                            <i class="icon_star-half_alt"></i>
+                                        {% else %}
+                                            <i class="icon_star"></i>
+                                        {% endif %}
+                                        {% if product.average_rate <= 1 %}
+                                            <i class="icon_star_alt"></i>
+                                        {% elif product.average_rate > 1 and product.average_rate < 2 %}
+                                            <i class="icon_star-half_alt"></i>
+                                        {% else %}
+                                            <i class="icon_star"></i>
+                                        {% endif %}
+                                        {% if product.average_rate <= 2 %}
+                                            <i class="icon_star_alt"></i>
+                                        {% elif product.average_rate > 2 and product.average_rate < 3 %}
+                                            <i class="icon_star-half_alt"></i>
+                                        {% else %}
+                                            <i class="icon_star"></i>
+                                        {% endif %}
+                                        {% if product.average_rate <= 3 %}
+                                            <i class="icon_star_alt"></i>
+                                        {% elif product.average_rate > 3 and product.average_rate < 4 %}
+                                            <i class="icon_star-half_alt"></i>
+                                        {% else %}
+                                            <i class="icon_star"></i>
+                                        {% endif %}
+                                        {% if product.average_rate <= 4 %}
+                                            <i class="icon_star_alt"></i>
+                                        {% elif product.average_rate > 4 and product.average_rate < 5 %}
+                                            <i class="icon_star-half_alt"></i>
+                                        {% else %}
+                                            <i class="icon_star"></i>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                                {% if product.average_rate %}
+                                    <div class="product-digit">
+                                        <span>{{ product.average_rate }}/5</span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="product-review-order">
+                                <span>62 Reviews</span>
+                                <span>242 orders</span>
+                            </div>
+                        </div>
+                        <p>
+                            {% if product.related %}
+                                {% for related in product.related.all %}
+                                    {{ related.field_name }}:
+                                    {{ related.value }} <br>
+                                {% endfor %}
+                            {% endif %}
+                        </p>
+                        <div class="pro-details-price">
+                            {% if product.is_discount %}
+                                <span class="new-price">{% trans 'Toman' %}{{ product.total_price }}</span>
+                                <span class="old-price">{% trans 'Toman' %}{{ product.og_price }}</span>
+                            {% else %}
+                                <span class="product-price-2">{% trans 'Toman' %}{{ product.total_price }}</span>
+                            {% endif %}
+                        </div>
+                        {% for variant in product.variants.all %}
+                            {% if variant.color_or_size == 'color' %}
+                                <div class="pro-details-color-wrap">
+                                    <span>Color:</span>
+                                    <div class="pro-details-color-content">
+                                        <a class="{{ variant.color.color }}"
+                                           href="#{{ variant.color.color_code }}">{{ variant.color.color }}</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if variant.color_or_size == 'size' %}
+                                <div class="pro-details-size">
+                                    <span>Size:</span>
+                                    <div class="pro-details-size-content">
+                                        <ul>
+                                            <li><a href="#">{{ variant.size }}</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="pro-details-quality">
+                            <span>Quantity:</span>
+                            <div class="cart-plus-minus">
+                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
+                            </div>
+                        </div>
+                        {% if product.category %}
+                            <div class="product-details-meta">
+                                <ul>
+                                    <li><span>{% trans 'Categories' %}:</span>
+                                        {% for category in product.category.all %}
+                                            <a href="{% url 'products:category_list' category.pk %}">{{ category }},</a>
+                                        {% endfor %}
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        {% if product.shop %}
+                            <div class="product-details-meta">
+                                <ul>
+                                    <li><span>{% trans 'Shop' %}:</span>
+                                        {% for shop in product.shop.all %}
+                                            <a href="#">{{ shop }},</a>
+                                        {% endfor %}
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
+                        <div class="pro-details-action-wrap">
+                            <div class="pro-details-add-to-cart">
+                                <a title="Add to Cart" href="#">Add To Cart </a>
+                            </div>
+                            <div class="pro-details-action">
+                                {% if is_liked %}
+                                    <a title="Remove from Wishlist"
+                                       href="{% url 'products:product_dislike' product.pk %}"><i
+                                            class="icon-dislike"></i></a>
+                                {% else %}
+                                    <a title="Add to Wishlist" href="{% url 'products:product_like' product.pk %}"><i
+                                            class="icon-like"></i></a>
+                                {% endif %}                                <a title="Add to Compare" href="#"><i
+                                    class="icon-refresh"></i></a>
+                                <a class="social" title="Social" href="#"><i class="icon-share"></i></a>
+                                <div class="product-dec-social">
+                                    <a class="facebook" title="Facebook" href="#"><i
+                                            class="icon-social-facebook"></i></a>
+                                    <a class="twitter" title="Twitter" href="#"><i class="icon-social-twitter"></i></a>
+                                    <a class="instagram" title="Instagram" href="#"><i
+                                            class="icon-social-instagram"></i></a>
+                                    <a class="pinterest" title="Pinterest" href="#"><i
+                                            class="icon-social-pinterest"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="description-review-wrapper pb-110">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="dec-review-topbar nav mb-45">
+                        <a class="active" data-toggle="tab" href="#des-details1">{% trans 'Description' %}</a>
+                        <a data-toggle="tab" href="#des-details2">{% trans 'Specification' %}</a>
+                        <a data-toggle="tab" href="#des-details3">{% trans 'Reviews and Ratting' %} </a>
+                    </div>
+                    <div class="tab-content dec-review-bottom">
+                        <div id="des-details1" class="tab-pane active">
+                            <div class="description-wrap">
+                                {{ product.description|safe }}
+                            </div>
+                        </div>
+                        <div id="des-details2" class="tab-pane">
+                            <div class="specification-wrap table-responsive">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class="title width1">{% trans 'Name' %}</td>
+                                        <td>{{ product.title }}</td>
+                                    </tr>
+                                    {% if product.category %}
+                                        <tr>
+                                            <td class="title width1">{% trans 'Category' %}</td>
+                                            {% for category in product.category.all %}
+                                                <td>{{ category.title }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endif %}
+                                    {% if product.shop %}
+                                        <tr>
+                                            <td class="title width1">{% trans 'Shop' %}</td>
+                                            {% for shop in product.shop.all %}
+                                                <td>{{ shop.title }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                    {% endif %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="des-details3" class="tab-pane">
+                            <div class="review-wrapper">
+                                <h2>{{ product.comments|is_active|length }} {% trans 'Comment(s) for' %} {{ product.title }}</h2>
+                                {% for comment in product.comments.all|is_active %}
+                                    <div class="single-review">
+                                        {% if comment.user.profile %}
+                                            <div class="review-img">
+                                                <img src="{{ comment.user.profile }}" alt="">
+                                            </div>
+                                        {% endif %}
+                                        <div class="review-content">
+                                            <div class="review-top-wrap">
+                                                <div class="review-name">
+                                                    <h5><span>{{ comment.user.username }}</span>
+                                                        - {{ comment.created_on }}</h5>
+                                                </div>
+                                                <div class="review-rating">
+                                                    {% if comment.rate > 0 %}
+                                                        <i class="yellow icon_star "></i>
+                                                    {% endif %}
+                                                    {% if comment.rate > 1 %}
+                                                        <i class="yellow icon_star "></i>
+                                                    {% endif %}
+                                                    {% if comment.rate > 2 %}
+                                                        <i class="yellow icon_star "></i>
+                                                    {% endif %}
+                                                    {% if comment.rate > 3 %}
+                                                        <i class="yellow icon_star "></i>
+                                                    {% endif %}
+                                                    {% if comment.rate > 4 %}
+                                                        <i class="yellow icon_star "></i>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            {{ comment.text }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            {% if request.user.is_authenticated %}
+                                <div class="ratting-form-wrapper">
+                                    <span>{% trans 'Add a Comment: ' %}</span>
+                                    <div class="ratting-form">
+                                        <form action="{% url 'products:product_comment' product.id %}" method="post">
+                                            {% csrf_token %}
+                                            {{ comment_form.non_field_errors | safe }}
+                                            <div class="row">
+                                                {{ comment_form.rate.error | safe }}
+                                                <span>{% trans 'Rate this product: ' %}</span>
+                                                {{ comment_form.rate }}
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="rating-form-style mb-20">
+                                                    <label>{% trans 'Your comment' %} <span>*</span></label>
+                                                    <textarea name="text"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                {{ comment_form.text.error | safe }}
+                                                <div class="form-submit">
+                                                    <input type="submit" value="Submit">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% trans 'If you wants to comment, you should: ' %}
+                                <div>
+                                    <a href="{% url 'account_login' %}?next={{ request.path }}"><i
+                                            class="icon-user"></i> {% trans 'Log In' %}</a>
+                                </div>
+                                <div>
+                                    <a href="{% url 'account_signup' %}?next={{ request.path }}"><i
+                                            class="icon-user"></i> {% trans 'Register' %}</a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if product.category %}
+        <div class="related-product pb-115">
+            <div class="container">
+                <div class="section-title mb-45 text-center">
+                    <h2>{% trans 'Related Product' %}</h2>
+                </div>
+                {% for category_product in category_products %}
+                    {% for product_r in category_product.products.all|is_active %}
+                        {% if product_r != product %}
+                            <div id="{{ category }}" class="tab-pane">
+                                <div class="related-product-active">
+                                    {% if product_r.is_discount %}
+                                        <div class="product-plr-1">
+                                            <div class="single-product-wrap">
+                                                <div class="product-img product-img-zoom mb-15">
+                                                    <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">
+                                                        <img src="{{ product_r.main_cover.url }}"
+                                                             alt="">
+                                                    </a>
+                                                    <span class="pro-badge left bg-red">-{{ product_r.discount_percent }}%</span>
+                                                    <div class="product-action-2 tooltip-style-2">
+                                                        <button title="Quick View" data-toggle="modal"
+                                                                data-target="#exampleModal">
+                                                            <i class="icon-size-fullscreen icons"></i></button>
+                                                        <button title="Compare"><i class="icon-refresh"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap-2 text-center">
+                                                    {% if product_r.average_rate > 0 %}
+                                                        <div class="product-rating-wrap">
+                                                            <div class="product-rating">
+                                                                {% if product_r.average_rate > 0 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 1 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 2 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 3 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 4 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span>({{ product_r.comments.all|length }})</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <h3>
+                                                        <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">{{ product_r.title }}</a>
+                                                    </h3>
+                                                    <div class="product-price-2">
+                                                        <span class="new-price">{% trans 'Toman' %}{{ product_r.og_price }}</span>
+                                                        <span class="old-price">{% trans 'Toman' %}{{ product_r.total_price }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap-2 product-content-position text-center">
+                                                    {% if product_r.average_rate > 0 %}
+                                                        <div class="product-rating-wrap">
+                                                            <div class="product-rating">
+                                                                {% if product_r.average_rate > 0 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 1 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 2 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 3 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 4 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span>({{ product_r.comments.all|length }})</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <h3>
+                                                        <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">{{ product_r.title }}</a>
+                                                    </h3>
+                                                    <div class="product-price-2">
+                                                        <span class="new-price">{% trans 'Toman' %}{{ product_r.og_price }}</span>
+                                                        <span class="old-price">{% trans 'Toman' %}{{ product_r.total_price }}</span>
+                                                    </div>
+                                                    <div class="pro-add-to-cart">
+                                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="product-plr-1">
+                                            <div class="single-product-wrap ">
+                                                <div class="product-img product-img-zoom mb-15">
+                                                    <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">
+                                                        <img src="{{ product_r.main_cover.url }}"
+                                                             alt="">
+                                                    </a>
+                                                    <div class="product-action-2 tooltip-style-2">
+                                                        <button title="Quick View" data-toggle="modal"
+                                                                data-target="#exampleModal">
+                                                            <i class="icon-size-fullscreen icons"></i></button>
+                                                        <button title="Compare"><i class="icon-refresh"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap-2 text-center">
+                                                    {% if product_r.average_rate > 0 %}
+                                                        <div class="product-rating-wrap">
+                                                            <div class="product-rating">
+                                                                {% if product_r.average_rate > 0 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 1 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 2 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 3 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                                {% if product_r.average_rate > 4 %}
+                                                                    <i class="icon_star"></i>
+                                                                {% else %}
+                                                                    <i class="icon_star gray"></i>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span>({{ product_r.comments.all|length }})</span>
+                                                        </div>
+                                                    {% endif %}
+                                                    <h3>
+                                                        <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">{{ product_r.title }}</a>
+                                                    </h3>
+                                                    <div class="product-price-2">
+                                                        <span>{% trans '$' %}{{ product_r.total_price }}</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap-2 product-content-position text-center">
+                                                    <div class="product-rating-wrap">
+                                                        {% if product_r.average_rate > 0 %}
+                                                            <div class="product-rating-wrap">
+                                                                <div class="product-rating">
+                                                                    {% if product_r.average_rate > 0 %}
+                                                                        <i class="icon_star"></i>
+                                                                    {% endif %}
+                                                                    {% if product_r.average_rate > 1 %}
+                                                                        <i class="icon_star"></i>
+                                                                    {% else %}
+                                                                        <i class="icon_star gray"></i>
+                                                                    {% endif %}
+                                                                    {% if product_r.average_rate > 2 %}
+                                                                        <i class="icon_star"></i>
+                                                                    {% else %}
+                                                                        <i class="icon_star gray"></i>
+                                                                    {% endif %}
+                                                                    {% if product_r.average_rate > 3 %}
+                                                                        <i class="icon_star"></i>
+                                                                    {% else %}
+                                                                        <i class="icon_star gray"></i>
+                                                                    {% endif %}
+                                                                    {% if product_r.average_rate > 4 %}
+                                                                        <i class="icon_star"></i>
+                                                                    {% else %}
+                                                                        <i class="icon_star gray"></i>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <span>({{ product_r.comments.all|length }})</span>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <h3>
+                                                        <a href="{% url 'products:product_detail' product_r.pk product_r.slug %}">{{ product_r.title }}</a>
+                                                    </h3>
+                                                    <div class="product-price-2">
+                                                        <span>{% trans '$' %}{{ product_r.total_price }}</span>
+                                                    </div>
+                                                    <div class="pro-add-to-cart">
+                                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

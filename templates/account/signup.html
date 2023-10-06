@@ -1,0 +1,75 @@
+{% extends '-base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">Home</a>
+                    </li>
+                    <li class="active">register</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="login-register-area pt-115 pb-120">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7 col-md-12 ml-auto mr-auto">
+                    <div class="login-register-wrapper">
+                        <div class="login-register-tab-list nav">
+                            <h4> Register </h4>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane active">
+                                <div class="login-form-container">
+                                    <div class="login-register-form">
+                                        <form id="signup" action="{% url 'account_signup' %}" method="post">
+                                            {% csrf_token %}
+                                            {{ form.non_field_errors | safe }}
+                                            <input type="hidden" name="remember" value="true"/>
+                                            <div>
+                                                <div>
+                                                    {{ form.username.errors | safe }}
+                                                    <label for="username" class="sr-only">Username</label>
+                                                    {% render_field form.username type="text" name="user-name" placeholder="Username*" %}
+                                                </div>
+                                                <div>
+                                                    {{ form.email.errors | safe }}
+                                                    <label for="email" class="sr-only">Email</label>
+                                                    {% render_field form.email name="user-email" placeholder="Email" type="email" %}
+                                                </div>
+                                                <div>
+                                                    {{ form.password1.errors | safe }}
+                                                    <label for="id_password1" class="sr-only">Password</label>
+                                                    {% render_field form.password1 type="password" name="user-password" placeholder="Password*" %}
+                                                </div>
+                                                <div>
+                                                    {{ form.password2.errors | safe }}
+                                                    <label for="password2" class="sr-only">Password</label>
+                                                    {% render_field form.password2 type="password" name="user-password" placeholder="Password*" %}
+                                                </div>
+                                            </div>
+                                            <div class="button-box">
+                                                <div class="login-toggle-btn">
+                                                    <input type="checkbox">
+                                                    <label>Remember me</label>
+                                                    <a href="#">Forgot Password?</a>
+                                                </div>
+                                                <input type="hidden" name="next" value="{{ request.GET.next }}" />
+                                                <button type="submit">{% translate 'Signin' %}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
