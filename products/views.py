@@ -10,7 +10,7 @@ from .forms import ProductCommentForm
 
 class ProductListView(View):
     def get(self, request):
-        products = sorted(Product.objects.all(), key=lambda a: a.average_rate)
+        products = Product.objects.filter(is_active=True)
         categories = []
         for product in products:
             for category in product.category.all():

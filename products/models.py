@@ -62,11 +62,21 @@ class Product(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
+    average_rate = models.FloatField()
+
     def save(self, *args, **kwargs):
         if self.discount_percent:
             self.is_discount = True
         else:
             self.is_discount = False
+
+        if self.comments.exists():
+            rated_list = []
+            for comment in self.comments.all():
+                rated_list.append(int(comment.rate))
+            self.average_rate = sum(rated_list)/len(rated_list)
+        else:
+            self.average_rate = 0
         super(Product, self).save(*args, **kwargs)
 
     @property
@@ -83,13 +93,14 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('products:product_detail', args=(self.pk, self.slug))
 
-    @property
-    def average_rate(self):
-        if self.comments.exists():
-            rated_list = []
-            for comment in self.comments.all():
-                rated_list.append(int(comment.rate))
-            return sum(rated_list)/len(rated_list)
+    # @property
+    # def average_rate(self):
+    #     if self.comments.exists():
+    #         rated_list = []
+    #         for comment in self.comments.all():
+    #             rated_list.append(int(comment.rate))
+    #         return sum(rated_list)/len(rated_list)
+    #     return 0
 
 
 class ProductRelated(models.Model):
