@@ -93,15 +93,6 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('products:product_detail', args=(self.pk, self.slug))
 
-    # @property
-    # def average_rate(self):
-    #     if self.comments.exists():
-    #         rated_list = []
-    #         for comment in self.comments.all():
-    #             rated_list.append(int(comment.rate))
-    #         return sum(rated_list)/len(rated_list)
-    #     return 0
-
 
 class ProductRelated(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='related')

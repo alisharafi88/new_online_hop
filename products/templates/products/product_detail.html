@@ -153,12 +153,6 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
-                        <div class="pro-details-quality">
-                            <span>Quantity:</span>
-                            <div class="cart-plus-minus">
-                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
-                            </div>
-                        </div>
                         {% if product.category %}
                             <div class="product-details-meta">
                                 <ul>
@@ -182,9 +176,18 @@
                             </div>
                         {% endif %}
                         <div class="pro-details-action-wrap">
-                            <div class="pro-details-add-to-cart">
-                                <a title="Add to Cart" href="#">Add To Cart </a>
-                            </div>
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="pro-details-quality">
+                                    <span>Quantity:</span>
+                                    <div class="cart-plus-minus">
+                                        <input class="cart-plus-minus-box" type="text" name="quantity" value="1">
+                                    </div>
+                                </div>
+                                <div class="pro-details-add-to-cart">
+                                    <button title="{% trans 'Add to Cart' %}" type="submit">{% trans 'Add To Cart' %} </button>
+                                </div>
+                            </form>
                             <div class="pro-details-action">
                                 {% if is_liked %}
                                     <a title="Remove from Wishlist"
