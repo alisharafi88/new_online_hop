@@ -185,16 +185,16 @@
                                     </div>
                                 </div>
                                 <div class="pro-details-add-to-cart">
-                                    <button title="{% trans 'Add to Cart' %}" type="submit">{% trans 'Add To Cart' %} </button>
+                                    <button class="cart-checkout-btn" title="{% trans 'Add to Cart' %}" type="submit">{% trans 'Add To Cart' %} </button>
                                 </div>
                             </form>
                             <div class="pro-details-action">
                                 {% if is_liked %}
-                                    <a title="Remove from Wishlist"
+                                    <a title="{% trans 'Remove from Wishlist' %}"
                                        href="{% url 'products:product_dislike' product.pk %}"><i
                                             class="icon-dislike"></i></a>
                                 {% else %}
-                                    <a title="Add to Wishlist" href="{% url 'products:product_like' product.pk %}"><i
+                                    <a title="{% trans 'Add to Wishlist' %}" href="{% url 'products:product_like' product.pk %}"><i
                                             class="icon-like"></i></a>
                                 {% endif %}                                <a title="Add to Compare" href="#"><i
                                     class="icon-refresh"></i></a>

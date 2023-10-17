@@ -84,6 +84,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # Allauth
                 'django.template.context_processors.request',
+                # mine
+                'cart.context_processors.cart',
             ],
         },
     },

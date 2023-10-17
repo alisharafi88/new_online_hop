@@ -205,7 +205,14 @@
                                                     <span class="old-price">{% trans 'Toman' %}{{ product.total_price }}</span>
                                                 </div>
                                                 <div class="pro-add-to-cart">
-                                                    <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                    <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" class="quantity-input"
+                                                               name="quantity" id="qty"
+                                                               value="1"
+                                                               min="1" max="30">
+                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -286,7 +293,14 @@
                                                     <span>{% trans 'Toman' %}{{ product.total_price }}</span>
                                                 </div>
                                                 <div class="pro-add-to-cart">
-                                                    <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                    <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" class="quantity-input"
+                                                               name="quantity" id="qty"
+                                                               value="1"
+                                                               min="1" max="30">
+                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -343,33 +357,33 @@
                                                         <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
                                                     </h3>
                                                     <div class="product-price-2">
-                                                    <span class="new-price">{% trans 'Toman' %}{{ product.total_price }}</span>
-                                                    <span class="old-price">{% trans 'Toman' %}{{ product.og_price }}</span>
-                                                </div>
+                                                        <span class="new-price">{% trans 'Toman' %}{{ product.total_price }}</span>
+                                                        <span class="old-price">{% trans 'Toman' %}{{ product.og_price }}</span>
+                                                    </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 product-content-position text-center">
                                                     {% if product.average_rate > 0 %}
-                                                    <div class="product-rating-wrap">
-                                                        <div class="product-rating">
-                                                            {% if product.average_rate > 0 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 1 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 2 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 3 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 4 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
+                                                        <div class="product-rating-wrap">
+                                                            <div class="product-rating">
+                                                                {% if product.average_rate > 0 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 1 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 2 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 3 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 4 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span>({{ product.comments.all|length }})</span>
                                                         </div>
-                                                        <span>({{ product.comments.all|length }})</span>
-                                                    </div>
-                                                {% endif %}
+                                                    {% endif %}
                                                     <h3>
                                                         <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
                                                     </h3>
@@ -378,7 +392,14 @@
                                                         <span class="old-price">{% trans 'Toman' %}{{ product.total_price }}</span>
                                                     </div>
                                                     <div class="pro-add-to-cart">
-                                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                        <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" class="quantity-input"
+                                                               name="quantity" id="qty"
+                                                               value="1"
+                                                               min="1" max="30">
+                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                    </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -431,27 +452,27 @@
                                                 </div>
                                                 <div class="product-content-wrap-2 product-content-position text-center">
                                                     {% if product.average_rate > 0 %}
-                                                    <div class="product-rating-wrap">
-                                                        <div class="product-rating">
-                                                            {% if product.average_rate > 0 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 1 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 2 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 3 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
-                                                            {% if product.average_rate > 4 %}
-                                                                <i class="icon_star "></i>
-                                                            {% endif %}
+                                                        <div class="product-rating-wrap">
+                                                            <div class="product-rating">
+                                                                {% if product.average_rate > 0 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 1 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 2 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 3 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                                {% if product.average_rate > 4 %}
+                                                                    <i class="icon_star "></i>
+                                                                {% endif %}
+                                                            </div>
+                                                            <span>({{ product.comments.all|length }})</span>
                                                         </div>
-                                                        <span>({{ product.comments.all|length }})</span>
-                                                    </div>
-                                                {% endif %}
+                                                    {% endif %}
                                                     <h3>
                                                         <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
                                                     </h3>
@@ -459,7 +480,14 @@
                                                         <span>{% trans 'Toman' %}{{ product.total_price }}</span>
                                                     </div>
                                                     <div class="pro-add-to-cart">
-                                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                                        <form method="post" action="{% url 'cart:cart_add' product.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" class="quantity-input"
+                                                               name="quantity" id="qty"
+                                                               value="1"
+                                                               min="1" max="30">
+                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                    </form>
                                                     </div>
                                                 </div>
                                             </div>

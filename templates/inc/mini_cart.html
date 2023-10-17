@@ -1,41 +1,32 @@
 {% load static %}
+{% load i18n %}
 <!-- mini cart start -->
 <div class="sidebar-cart-active">
     <div class="sidebar-cart-all">
         <a class="cart-close" href="#"><i class="icon_close"></i></a>
         <div class="cart-content">
-            <h3>Shopping Cart</h3>
+            <h3>{% trans 'Shopping Cart' %}</h3>
             <ul>
-                <li class="single-product-cart">
-                    <div class="cart-img">
-                        <a href="#"><img src="{% static 'images/cart/cart-1.jpg' %}" alt=""></a>
-                    </div>
-                    <div class="cart-title">
-                        <h4><a href="#">Simple Black T-Shirt</a></h4>
-                        <span> 1 × $49.00	</span>
-                    </div>
-                    <div class="cart-delete">
-                        <a href="#">×</a>
-                    </div>
-                </li>
-                <li class="single-product-cart">
-                    <div class="cart-img">
-                        <a href="#"><img src="{% static 'images/cart/cart-2.jpg' %}" alt=""></a>
-                    </div>
-                    <div class="cart-title">
-                        <h4><a href="#">Norda Backpack</a></h4>
-                        <span> 1 × $49.00	</span>
-                    </div>
-                    <div class="cart-delete">
-                        <a href="#">×</a>
-                    </div>
-                </li>
+                {% for item in cart %}
+                    <li class="single-product-cart">
+                        <div class="cart-img">
+                            <a href="{{item.product_obj.get_absolute_url}}"><img src="{{item.product_obj.main_cover.url}}" alt=""></a>
+                        </div>
+                        <div class="cart-title">
+                            <h4><a href="{{item.product_obj.get_absolute_url}}">{{ item.product_obj.title}}</a></h4>
+                            <span> {{ item.quantity }} × ${{ item.product_obj.total_price }}	</span>
+                        </div>
+                        <div class="cart-delete">
+                            <a href="{% url 'cart:cart_remove' item.product_obj.id %}">×</a>
+                        </div>
+                    </li>
+                {% endfor %}
             </ul>
             <div class="cart-total">
-                <h4>Subtotal: <span>$170.00</span></h4>
+                <h4>{% trans 'Subtotal' %}: <span>${{ cart.get_total_price }}</span></h4>
             </div>
             <div class="cart-checkout-btn">
-                <a class="btn-hover cart-btn-style" href="cart.html">view cart</a>
+                <a class="btn-hover cart-btn-style" href="{% url 'cart:cart_detail' %}">{% trans 'view cart' %}</a>
                 <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
             </div>
         </div>

@@ -63,4 +63,4 @@ class Cart:
     #
     #     return sum(item['quantity'] * item['product_obj'].price for item in self.cart.values())
     def get_total_price(self):
-        return sum(item['quantity'] * item['product_obj'].price for item in self)
+        return sum(item['quantity'] * item['product_obj'].total_price for item in self)

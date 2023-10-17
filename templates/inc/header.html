@@ -45,7 +45,7 @@
                                 {% endif %}
                                 <div class="header-cart-2">
                                     <a class="cart-active" href="{% url 'cart:cart_detail' %}"><i class="icon-basket-loaded"></i> <span
-                                            class="black">02</span> $264.50</a>
+                                            class="black">{{ cart|length }}</span> {{cart.get_total_price}}</a>
                                 </div>
                             </div>
                         </div>

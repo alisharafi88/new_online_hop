@@ -36,7 +36,7 @@ def add_to_cart_view(request, product_id):
         cart.add(product, quantity, inplace)
 
     messages.success(request, _('your product added to cart successfully !'))
-    return redirect('products:product_detail', product.pk, product.slug)
+    return redirect(request.META.get('HTTP_REFERER'))
 
 
 def remove_product_view(request, product_id):
@@ -44,7 +44,7 @@ def remove_product_view(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart.remove(product)
     messages.success(request, _('your product removed from cart successfully !'))
-    return redirect('cart:cart_detail')
+    return redirect(request.META.get('HTTP_REFERER', 'cart:cart_detail'))
 
 
 def clear_cart_view(request):
