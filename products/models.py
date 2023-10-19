@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg
 from django.urls import reverse
 from django.utils.translation import gettext as _
 
@@ -43,13 +44,13 @@ class Product(models.Model):
 
     category = models.ManyToManyField(verbose_name=_('Category'), to=ProductsCategory, related_name='products')
 
-    shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, related_name='products')
+    shop = models.ForeignKey(Shop, on_delete=models.SET_NULL, null=True, blank=True, related_name='products')
 
     title = models.CharField(_('Title'), max_length=50)
     description = RichTextField(verbose_name=_('Description'))
     slug = models.SlugField(allow_unicode=True)
 
-    og_price = models.DecimalField(_('Original Price'), default=0, decimal_places=10, max_digits=30)
+    og_price = models.DecimalField(_('Original Price'), default=0, max_digits=6, decimal_places=2)
     discount_percent = models.PositiveIntegerField(_('Discount Percent'), choices=PERCENT_CHOICE, default=0)
     is_discount = models.BooleanField(default=False)
     discounted_price = models.PositiveIntegerField(default=0)
@@ -62,26 +63,28 @@ class Product(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
-    average_rate = models.FloatField()
+    average_rate = models.FloatField(default=0)
 
-    def save(self, *args, **kwargs):
+    @property
+    def is_discount(self):
         if self.discount_percent:
-            self.is_discount = True
+            return True
         else:
-            self.is_discount = False
+            return False
 
+    @property
+    def average_rate(self):
         if self.comments.exists():
             rated_list = []
             for comment in self.comments.all():
                 rated_list.append(int(comment.rate))
-            self.average_rate = sum(rated_list)/len(rated_list)
+            return sum(rated_list)/len(rated_list)
         else:
-            self.average_rate = 0
-        super(Product, self).save(*args, **kwargs)
+            return 0
 
     @property
     def discounted_price(self):
-        return (self.og_price * self.discount_percent)/100
+        return (self.og_price * self.discount_percent) / 100
 
     @property
     def total_price(self):
@@ -182,6 +185,9 @@ class ProductComment(models.Model):
     is_active = models.BooleanField(default=True)
 
     created_on = models.DateTimeField(auto_now_add=True, verbose_name=_('Created On'))
+
+    def __str__(self):
+        return f'{self.rate}-{self.user}'
 
 
 class ProductLike(models.Model):

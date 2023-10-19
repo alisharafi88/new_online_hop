@@ -185,7 +185,8 @@
                                     </div>
                                 </div>
                                 <div class="pro-details-add-to-cart">
-                                    <button class="cart-checkout-btn" title="{% trans 'Add to Cart' %}" type="submit">{% trans 'Add To Cart' %} </button>
+                                    <button class="cart-checkout-btn" title="{% trans 'Add to Cart' %}"
+                                            type="submit">{% trans 'Add To Cart' %} </button>
                                 </div>
                             </form>
                             <div class="pro-details-action">
@@ -194,7 +195,8 @@
                                        href="{% url 'products:product_dislike' product.pk %}"><i
                                             class="icon-dislike"></i></a>
                                 {% else %}
-                                    <a title="{% trans 'Add to Wishlist' %}" href="{% url 'products:product_like' product.pk %}"><i
+                                    <a title="{% trans 'Add to Wishlist' %}"
+                                       href="{% url 'products:product_like' product.pk %}"><i
                                             class="icon-like"></i></a>
                                 {% endif %}                                <a title="Add to Compare" href="#"><i
                                     class="icon-refresh"></i></a>
@@ -348,9 +350,9 @@
                     <h2>{% trans 'Related Product' %}</h2>
                 </div>
                 {% for category_product in category_products %}
-                    {% for product_r in category_product.products.all|is_active %}
-                        {% if product_r != product %}
-                            <div id="{{ category }}" class="tab-pane">
+                    <div class="">
+                        {% for product_r in category_product.products.all|is_active %}
+                            {% if product_r != product %}
                                 <div class="related-product-active">
                                     {% if product_r.is_discount %}
                                         <div class="product-plr-1">
@@ -361,12 +363,6 @@
                                                              alt="">
                                                     </a>
                                                     <span class="pro-badge left bg-red">-{{ product_r.discount_percent }}%</span>
-                                                    <div class="product-action-2 tooltip-style-2">
-                                                        <button title="Quick View" data-toggle="modal"
-                                                                data-target="#exampleModal">
-                                                            <i class="icon-size-fullscreen icons"></i></button>
-                                                        <button title="Compare"><i class="icon-refresh"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 text-center">
                                                     {% if product_r.average_rate > 0 %}
@@ -459,12 +455,6 @@
                                                         <img src="{{ product_r.main_cover.url }}"
                                                              alt="">
                                                     </a>
-                                                    <div class="product-action-2 tooltip-style-2">
-                                                        <button title="Quick View" data-toggle="modal"
-                                                                data-target="#exampleModal">
-                                                            <i class="icon-size-fullscreen icons"></i></button>
-                                                        <button title="Compare"><i class="icon-refresh"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 text-center">
                                                     {% if product_r.average_rate > 0 %}
@@ -550,11 +540,13 @@
                                             </div>
                                         </div>
                                     {% endif %}
+
                                 </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 {% endfor %}
+
             </div>
         </div>
     {% endif %}

@@ -39,8 +39,8 @@ class ProductCommentAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": ("category", "title", "description", "slug", "average_rate")}),
-        (_("Price"), {"fields": ("og_price", "discount_percent", "is_discount")}),
+        (None, {"fields": ("category", "title", "description", "slug", "shop")}),
+        (_("Price"), {"fields": ("og_price", "discount_percent")}),
         (_("main_cover"), {"fields": ("main_cover",)}),
         (_('activity'), {'fields': ('is_active',)}),
     )

@@ -135,13 +135,6 @@
                                                          alt="">
                                                 </a>
                                                 <span class="pro-badge left bg-red">-{{ product.discount_percent }}%</span>
-                                                <div class="product-action-2 tooltip-style-2">
-                                                    <button title="Wishlist"><i class="icon-heart"></i></button>
-                                                    <button title="Quick View" data-toggle="modal"
-                                                            data-target="{{ product.get_absolute_url }}">
-                                                        <i class="icon-size-fullscreen icons"></i></button>
-                                                    <button title="Compare"><i class="icon-refresh"></i></button>
-                                                </div>
                                             </div>
                                             <div class="product-content-wrap-2 text-center">
                                                 {% if product.average_rate > 0 %}
@@ -211,7 +204,8 @@
                                                                name="quantity" id="qty"
                                                                value="1"
                                                                min="1" max="30">
-                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                        <button type="submit"
+                                                                title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -225,13 +219,6 @@
                                                     <img src="{{ product.main_cover.url }}"
                                                          alt="">
                                                 </a>
-                                                <div class="product-action-2 tooltip-style-2">
-                                                    <button title="Wishlist"><i class="icon-heart"></i></button>
-                                                    <button title="Quick View" data-toggle="modal"
-                                                            data-target="#exampleModal">
-                                                        <i class="icon-size-fullscreen icons"></i></button>
-                                                    <button title="Compare"><i class="icon-refresh"></i></button>
-                                                </div>
                                             </div>
                                             <div class="product-content-wrap-2 text-center">
                                                 {% if product.average_rate > 0 %}
@@ -299,7 +286,8 @@
                                                                name="quantity" id="qty"
                                                                value="1"
                                                                min="1" max="30">
-                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                        <button type="submit"
+                                                                title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -310,9 +298,9 @@
                         </div>
                     </div>
                     {% for category in categories %}
-                        {% for product in category.products.all|is_active %}
-                            <div id="{{ category }}" class="tab-pane">
-                                <div class="row">
+                        <div id="{{ category }}" class="tab-pane">
+                            <div class="row">
+                                {% for product in category.products.all|is_active|dictsortreversed:'average_rate' %}
                                     {% if product.is_discount %}
                                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
                                             <div class="single-product-wrap mb-35">
@@ -322,13 +310,6 @@
                                                              alt="">
                                                     </a>
                                                     <span class="pro-badge left bg-red">-{{ product.discount_percent }}%</span>
-                                                    <div class="product-action-2 tooltip-style-2">
-                                                        <button title="Wishlist"><i class="icon-heart"></i></button>
-                                                        <button title="Quick View" data-toggle="modal"
-                                                                data-target="#exampleModal">
-                                                            <i class="icon-size-fullscreen icons"></i></button>
-                                                        <button title="Compare"><i class="icon-refresh"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 text-center">
                                                     {% if product.average_rate > 0 %}
@@ -392,14 +373,16 @@
                                                         <span class="old-price">{% trans 'Toman' %}{{ product.total_price }}</span>
                                                     </div>
                                                     <div class="pro-add-to-cart">
-                                                        <form method="post" action="{% url 'cart:cart_add' product.id %}">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" class="quantity-input"
-                                                               name="quantity" id="qty"
-                                                               value="1"
-                                                               min="1" max="30">
-                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
-                                                    </form>
+                                                        <form method="post"
+                                                              action="{% url 'cart:cart_add' product.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" class="quantity-input"
+                                                                   name="quantity" id="qty"
+                                                                   value="1"
+                                                                   min="1" max="30">
+                                                            <button type="submit"
+                                                                    title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -412,13 +395,6 @@
                                                         <img src="{{ product.main_cover.url }}"
                                                              alt="">
                                                     </a>
-                                                    <div class="product-action-2 tooltip-style-2">
-                                                        <button title="Wishlist"><i class="icon-heart"></i></button>
-                                                        <button title="Quick View" data-toggle="modal"
-                                                                data-target="#exampleModal">
-                                                            <i class="icon-size-fullscreen icons"></i></button>
-                                                        <button title="Compare"><i class="icon-refresh"></i></button>
-                                                    </div>
                                                 </div>
                                                 <div class="product-content-wrap-2 text-center">
                                                     {% if product.average_rate > 0 %}
@@ -480,22 +456,24 @@
                                                         <span>{% trans 'Toman' %}{{ product.total_price }}</span>
                                                     </div>
                                                     <div class="pro-add-to-cart">
-                                                        <form method="post" action="{% url 'cart:cart_add' product.id %}">
-                                                        {% csrf_token %}
-                                                        <input type="hidden" class="quantity-input"
-                                                               name="quantity" id="qty"
-                                                               value="1"
-                                                               min="1" max="30">
-                                                        <button type="submit" title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
-                                                    </form>
+                                                        <form method="post"
+                                                              action="{% url 'cart:cart_add' product.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" class="quantity-input"
+                                                                   name="quantity" id="qty"
+                                                                   value="1"
+                                                                   min="1" max="30">
+                                                            <button type="submit"
+                                                                    title={% trans 'Add To Cart' %}>{% trans 'Add To Cart' %}</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     {% endif %}
-                                </div>
+                                {% endfor %}
                             </div>
-                        {% endfor %}
+                        </div>
                     {% endfor %}
                 </div>
             </div>
