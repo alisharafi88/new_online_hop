@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'colorfield',
     'ckeditor',
     'debug_toolbar',
+    'bootstrap5',
 
     # Main
     'accounts.apps.AccountsConfig',
