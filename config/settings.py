@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'colorfield',
     'ckeditor',
+    'debug_toolbar',
 
     # Main
     'accounts.apps.AccountsConfig',
@@ -66,8 +67,23 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Allauth
-    "allauth.account.middleware.AccountMiddleware"
+    "allauth.account.middleware.AccountMiddleware",
+    # Debug toolbar
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
+
+def show_toolbar(request):
+    return True
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": show_toolbar,
+}
 
 ROOT_URLCONF = 'config.urls'
 

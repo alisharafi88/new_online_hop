@@ -263,7 +263,7 @@
                         <div id="des-details3" class="tab-pane">
                             <div class="review-wrapper">
                                 <h2>{{ product.comments|is_active|length }} {% trans 'Comment(s) for' %} {{ product.title }}</h2>
-                                {% for comment in product.comments.all|is_active %}
+                                {% for comment in comments %}
                                     <div class="single-review">
                                         {% if comment.user.profile %}
                                             <div class="review-img">
@@ -351,7 +351,7 @@
                 </div>
                 {% for category_product in category_products %}
                     <div class="">
-                        {% for product_r in category_product.products.all|is_active %}
+                        {% for product_r in category_product.products.all %}
                             {% if product_r != product %}
                                 <div class="related-product-active">
                                     {% if product_r.is_discount %}

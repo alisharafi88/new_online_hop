@@ -4,39 +4,40 @@ from django.contrib import messages
 from django.utils.translation import gettext as _
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Product, ProductLike, ProductsCategory
+from .models import Product, ProductLike, ProductsCategory, ProductComment
 from .forms import ProductCommentForm
 
 
 class ProductListView(View):
     def get(self, request):
-        products = Product.objects.filter(is_active=True)
-        categories = []
-        for product in products:
-            for category in product.category.all():
-                if not category.parent:
-                    categories.append(category)
+        products = Product.objects.prefetch_related('comments').filter(is_active=True)
+        categories = ProductsCategory.objects.prefetch_related('products').filter(products__in=products,
+                                                                                  products__is_active=True).distinct()
         return render(
             request,
             'products/home.html',
-            {'products': products, 'categories': set(categories)}
+            {'products': products, 'categories': categories}
         )
 
 
 class ProductDetailView(View):
     def get(self, request, product_pk, product_slug):
         comment_form = ProductCommentForm()
-        product = get_object_or_404(Product, pk=product_pk, slug=product_slug)
-        if product.is_active:
-            p_category = []
-            for category in product.category.all():
-                p_category.append(category)
+        product = get_object_or_404(Product.objects.prefetch_related('comments', 'category', 'variants', 'related', 'files').select_related('shop').filter(is_active=True),
+                                    pk=product_pk, slug=product_slug)
+
+        comments = ProductComment.objects.prefetch_related('user').filter(product=product, is_active=True)
+
+        p_category = ProductsCategory.objects.prefetch_related('products').filter(products=product).distinct()
+
         is_liked = False
         if request.user.is_authenticated:
             vote = ProductLike.objects.filter(product=product, user=request.user)
             if vote.exists():
                 is_liked = True
-        return render(request, 'products/product_detail.html', {'product': product, 'category_products': p_category, 'comment_form': comment_form, 'is_liked': is_liked})
+        return render(request, 'products/product_detail.html',
+                      {'product': product, 'category_products': p_category, 'comment_form': comment_form,
+                       'is_liked': is_liked, 'comments': comments})
 
 
 class ProductCommentView(LoginRequiredMixin, View):

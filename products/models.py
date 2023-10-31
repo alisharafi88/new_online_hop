@@ -10,9 +10,11 @@ from accounts import models as account
 
 
 class ProductsCategory(models.Model):
+    STATUS_PARENT = 'p'
+    STATUS_CHILD = 'c'
     STATUS_CHOICES = (
-        ('parent',),
-        ('child',),
+        (STATUS_PARENT, 'parent'),
+        (STATUS_CHILD, 'child'),
     )
     title = models.CharField(_('Title'), max_length=50)
     description = RichTextField(blank=True, null=True)
