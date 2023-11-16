@@ -30,28 +30,28 @@
                         <legend>{% trans 'Address change' %}</legend>
                         <div class="single-input-item">
                             {{ form.receiver.errors | safe }}
-                            <label for="current-pwd">{% trans 'Receiver' %}</label>
+                            <label>{% trans 'Receiver' %}</label>
                             {% render_field form.receiver type=""%}
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="single-input-item">
                                     {{ form.receiver_phone_number.errors | safe }}
-                                    <label for="new-pwd">{% trans 'Receiver Phone number' %}</label>
+                                    <label>{% trans 'Receiver Phone number' %}</label>
                                     {% render_field form.receiver_phone_number type=""%}
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="single-input-item">
                                     {{ form.postal_code.errors | safe }}
-                                    <label for="confirm-pwd">{% trans 'Postal Code' %}</label>
+                                    <label>{% trans 'Postal Code' %}</label>
                                     {% render_field form.postal_code type=""%}
                                 </div>
                             </div>
                         </div>
                         <div class="single-input-item">
                             {{ form.address.errors | safe }}
-                            <label for="current-pwd">{% trans 'Address' %}</label>
+                            <label>{% trans 'Address' %}</label>
                             {% render_field form.address class='text' type="text"%}
                         </div>
                     </fieldset>
