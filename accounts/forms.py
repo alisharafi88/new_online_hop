@@ -11,8 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = "__all__"
-        field_classes = {"username": UsernameField}
+        fields = ['username', 'first_name', 'last_name', 'phone_number', 'email']
 
 
 class AddressForm(forms.ModelForm):
