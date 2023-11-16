@@ -3,7 +3,12 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext as _
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, UserAddress
+
+
+class UserAddressInline(admin.TabularInline):
+    model = UserAddress
+    extra = 0
 
 
 @admin.register(CustomUser)
@@ -11,6 +16,7 @@ class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
+    inlines = [UserAddressInline, ]
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),
@@ -27,6 +33,6 @@ class CustomUserAdmin(UserAdmin):
                 ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (_("Important dates"), {"fields": ("last_login",)}),
     )
     add_fieldsets = fieldsets

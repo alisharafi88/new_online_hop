@@ -1,0 +1,72 @@
+{% extends '-base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block title %}
+	{% translate 'Address' %}
+{% endblock %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">{% trans 'Home' %}</a>
+                    </li>
+                    <li class="active">{% trans 'Address' %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="my-account-wrapper pt-120 pb-120">
+        <div class="myaccount-content ">
+            <h3>{% trans 'Account Details' %}</h3>
+            <div class="account-details-form">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors | safe }}
+                    <fieldset>
+                        <legend>{% trans 'Address change' %}</legend>
+                        <div class="single-input-item">
+                            {{ form.receiver.errors | safe }}
+                            <label for="current-pwd">{% trans 'Receiver' %}</label>
+                            {% render_field form.receiver type=""%}
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="single-input-item">
+                                    {{ form.receiver_phone_number.errors | safe }}
+                                    <label for="new-pwd">{% trans 'Receiver Phone number' %}</label>
+                                    {% render_field form.receiver_phone_number type=""%}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="single-input-item">
+                                    {{ form.postal_code.errors | safe }}
+                                    <label for="confirm-pwd">{% trans 'Postal Code' %}</label>
+                                    {% render_field form.postal_code type=""%}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="single-input-item">
+                            {{ form.address.errors | safe }}
+                            <label for="current-pwd">{% trans 'Address' %}</label>
+                            {% render_field form.address class='text' type="text"%}
+                        </div>
+                    </fieldset>
+                    <div class="single-input-item">
+                        <button type="submit"
+                                class="check-btn sqr-btn ">{% trans 'Save Changes' %}</button>
+                    </div>
+                    {% if address %}
+                        <div class="single-input-item">
+                            <a href="{% url 'accounts:remove_address' address.pk %}"
+                                    class="btn-warning">{% trans 'remove' %}</a>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
