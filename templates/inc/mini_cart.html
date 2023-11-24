@@ -27,7 +27,7 @@
             </div>
             <div class="cart-checkout-btn">
                 <a class="btn-hover cart-btn-style" href="{% url 'cart:cart_detail' %}">{% trans 'view cart' %}</a>
-                <a class="no-mrg btn-hover cart-btn-style" href="checkout.html">checkout</a>
+                <a class="no-mrg btn-hover cart-btn-style" href="{% url 'order:order' %}">{% trans 'checkout' %}</a>
             </div>
         </div>
     </div>
