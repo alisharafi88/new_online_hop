@@ -22,3 +22,6 @@ class UserAddress(models.Model):
     receiver_phone_number = models.CharField(validators=[MinLengthValidator(11)], max_length=11, blank=True, null=True)
     postal_code = models.PositiveIntegerField(verbose_name=_('Postal Code'), validators=[validate_postal_code])
     address = models.TextField()
+
+    def __str__(self):
+        return f'{self.user.username}, {self.postal_code}'

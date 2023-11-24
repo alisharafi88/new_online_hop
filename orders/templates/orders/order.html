@@ -1,0 +1,98 @@
+{% extends '-base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Order Page' %}
+{% endblock %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">{% translate 'Home' %}</a>
+                    </li>
+                    <li class="active">{% trans 'Checkout' %}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="checkout-main-area pt-120 pb-120">
+        <div class="container">
+            <div class="checkout-wrap pt-30">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="billing-info-wrap mr-50">
+                            <h3>{% trans 'Billing Details' %}</h3>
+                            <form action="{% url 'order:order' %}" method="post">
+                                {{ form.non_field_errors | safe }}
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label> Receiver Name <abbr class="required"
+                                                                        title="required">*</abbr></label>
+                                            {% render_field form.receiver type="text" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6">
+                                        <div class="billing-info mb-20">
+                                            <label>{% trans 'Receiver Phone number' %} <abbr class="required"
+                                                                                             title="required">*</abbr></label>
+                                            {% render_field form.receiver_phone_number type="text" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>{% trans 'Address' %}<abbr class="required"
+                                                                        title="required">*</abbr></label>
+                                            {% render_field form.address type="text" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="billing-info mb-20">
+                                            <label>{% trans 'Order Notes' %}</label>
+                                            {% render_field form.order_note type="text" %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="your-order-area">
+                            <h3>{% trans 'Your order' %}</h3>
+                            <div class="your-order-wrap gray-bg-4">
+                                <div class="your-order-info-wrap">
+                                    <div class="your-order-info">
+                                        <ul>
+                                            <li>{% trans 'Product' %} <span>{% trans 'Total' %}</span></li>
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-middle">
+                                        <ul>
+                                            {% for item in cart %}
+                                                <li>{{ item.product_obj.title }} × {{ item.quantity }} <span>${{ item.product_obj.total_price }} </span></li>
+                                            {% endfor %}
+
+                                        </ul>
+                                    </div>
+                                    <div class="your-order-info order-total">
+                                        <ul>
+                                            <li>{% trans 'Total' %} <span>${{ cart.get_total_price }} </span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Place-order">
+                                <a href="#">Place Order</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

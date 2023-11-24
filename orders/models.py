@@ -1,15 +1,27 @@
-from django.db import models
 from django.conf import settings
+from django.core.validators import MinLengthValidator
+from django.db import models
+from django.utils.translation import gettext as _
+from django.core.exceptions import ValidationError
 
-from accounts.models import UserAddress
 from products.models import Product
+
+
+def validate_postal_code(value):
+    value_str = str(value)
+    if len(value_str) != 10:
+        raise ValidationError(_("Phone number`s length should be '11' "))
 
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, related_name='orders')
 
-    address = models.ForeignKey(UserAddress, on_delete=models.DO_NOTHING, related_name='orders')
+    receiver = models.CharField(verbose_name=_('Receiver name'), max_length=50)
+    receiver_phone_number = models.CharField(validators=[MinLengthValidator(11)], max_length=11, blank=True, null=True)
+
     order_note = models.CharField(max_length=200)
+
+    address = models.TextField()
 
     is_paid = models.BooleanField(default=False)
 
