@@ -37,6 +37,7 @@ class OrderView(LoginRequiredMixin, View):
                     price=item['product_obj'].total_price,
                 )
             request.session['order_id'] = new_order.id
+            self.cart.clear()
             messages.success(request, _('Now You have new ORDER! '), 'success')
             return redirect('accounts:profile')
         messages.error(request, _('Somthing wrong happened.'), 'danger')
