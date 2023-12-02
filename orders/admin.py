@@ -16,3 +16,5 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['user', 'updated_on']
     list_select_related = ['user']
 
+
+admin.site.register(OrderItem)

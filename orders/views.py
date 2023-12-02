@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.db.models import Prefetch
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 
 from .forms import OrderForm
-from .models import OrderItem
+from .models import OrderItem, Order
 from cart.cart import Cart
 
 
@@ -36,9 +37,23 @@ class OrderView(LoginRequiredMixin, View):
                     quantity=item['quantity'],
                     price=item['product_obj'].total_price,
                 )
+                print(item['product_obj'].total_price)
             request.session['order_id'] = new_order.id
             self.cart.clear()
             messages.success(request, _('Now You have new ORDER! '), 'success')
             return redirect('accounts:profile')
         messages.error(request, _('Somthing wrong happened.'), 'danger')
         return redirect(request.META.get('HTTP_REFERER', 'orders:order'))
+
+
+class OrderDetailsView(LoginRequiredMixin, View):
+
+    def setup(self, request, *args, **kwargs):
+        self.order = get_object_or_404(Order.objects.prefetch_related(Prefetch('items', queryset=OrderItem.objects.select_related('product'))), pk=kwargs['order_pk'])
+        return super().setup(self, request, *args, **kwargs)
+
+    def get(self, request, order_pk):
+        return render(request, 'orders/order_detail.html', {'order': self.order})
+
+
+

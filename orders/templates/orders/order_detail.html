@@ -1,0 +1,88 @@
+{% extends '-base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Order Detail' %}
+{% endblock %}
+
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">{% trans 'Home' %}</a>
+                    </li>
+                    <li class="active">Cart Page</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="cart-main-area pt-115 pb-120">
+        <div class="container">
+            <h3 class="cart-page-title">{% translate 'Your Order items' %}</h3>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                    <form action="#">
+                        <div class="table-content table-responsive cart-table-content">
+                            {% if cart|length %}
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Until Price</th>
+                                        <th>Qty</th>
+                                        <th>Subtotal</th>
+                                        <th>action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in order.items.all %}
+                                            <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="{{item.product.get_absolute_url}}"><img src="{{item.product.main_cover.url}}" alt=""></a>
+                                            </td>
+                                            <td class="product-name"><a href="{{item.product.get_absolute_url}}">{{ item.product.title}}</a></td>
+                                            <td class="product-price-cart"><span class="amount">${{ item.price }}</span></td>
+                                            <td class="product-quantity pro-details-quality">
+                                                <div class="cart-plus-minus">
+                                                    <input class="cart-plus-minus-box" type="text" name="qtybutton" value="{{ item.quantity }}">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal">${{ item.total_price }}</td>
+                                            <td class="product-remove">
+                                                <a href="#"><i class="icon_close"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                {% trans 'Your cart is empty, Continue shopping first!' %}
+                            {% endif %}
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="cart-shiping-update-wrapper">
+                                    <div class="cart-shiping-update">
+                                        <a href="{% url "products:product_list" %}">Continue Shopping</a>
+                                    </div>
+                                    <div class="cart-clear">
+                                        <button>Update Cart</button>
+                                        {% if cart|length  %}
+                                            <a href="#">Clear Cart</a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

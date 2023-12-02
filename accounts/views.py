@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum, F, Value
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.utils.translation import gettext as _
@@ -18,8 +19,9 @@ class ProfileView(LoginRequiredMixin, View):
         userprofile_form = self.form_class(instance=request.user)
         userpassword_form = PasswordChangeForm(request.user)
         address = request.user.addresses.all()
+        orders = user.orders.prefetch_related('items').annotate(price=Sum(F('items__quantity') * F('items__price'))).all()
         return render(request, 'accounts/profile.html',
-                      {'user': user, 'address': address, 'userprofile_form': userprofile_form, 'userpassword_form': userpassword_form})
+                      {'user': user, 'address': address, 'userprofile_form': userprofile_form, 'userpassword_form': userpassword_form, 'orders': orders})
 
     def post(self, request):
         userprofile_form = self.form_class(request.POST, instance=request.user)
