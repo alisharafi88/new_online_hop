@@ -3,20 +3,13 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext as _
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser, UserAddress
-
-
-class UserAddressInline(admin.TabularInline):
-    model = UserAddress
-    extra = 0
-
+from .models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
-    inlines = [UserAddressInline, ]
 
     fieldsets = (
         (None, {"fields": ("username", "password")}),

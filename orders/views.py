@@ -56,4 +56,8 @@ class OrderDetailsView(LoginRequiredMixin, View):
         return render(request, 'orders/order_detail.html', {'order': self.order})
 
 
+class ClearOrderView(LoginRequiredMixin, View):
+    def get(self, request, order_pk):
+        order = get_object_or_404(Order, pk=order_pk).delete()
+        return redirect('accounts:profile')
 

@@ -27,16 +27,15 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                     <form action="#">
                         <div class="table-content table-responsive cart-table-content">
-                            {% if cart|length %}
+                            {% if order %}
                                 <table>
                                     <thead>
                                     <tr>
-                                        <th>Image</th>
-                                        <th>Product Name</th>
-                                        <th>Until Price</th>
-                                        <th>Qty</th>
-                                        <th>Subtotal</th>
-                                        <th>action</th>
+                                        <th>{% translate 'Image' %}</th>
+                                        <th>{% translate 'Product Name' %}</th>
+                                        <th>{% translate 'Until Price' %}</th>
+                                        <th>{% translate 'Qty' %}</th>
+                                        <th>{% translate 'action' %}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -52,7 +51,6 @@
                                                     <input class="cart-plus-minus-box" type="text" name="qtybutton" value="{{ item.quantity }}">
                                                 </div>
                                             </td>
-                                            <td class="product-subtotal">${{ item.total_price }}</td>
                                             <td class="product-remove">
                                                 <a href="#"><i class="icon_close"></i></a>
                                             </td>
@@ -72,8 +70,8 @@
                                     </div>
                                     <div class="cart-clear">
                                         <button>Update Cart</button>
-                                        {% if cart|length  %}
-                                            <a href="#">Clear Cart</a>
+                                        {% if order and order.is_paid == False  %}
+                                            <a href="{% url 'orders:order_clear' order.id %}">{% translate 'Clear Your order' %}</a>
                                         {% endif %}
                                     </div>
                                 </div>
