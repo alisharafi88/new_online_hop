@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'products.apps.ProductsConfig',
     'cart.apps.CartConfig',
     'orders.apps.OrdersConfig',
+    'search.apps.SearchConfig',
 ]
 
 MIDDLEWARE = [
@@ -104,6 +105,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 # mine
                 'cart.context_processors.cart',
+                'search.context_processors.search_form',
             ],
         },
     },

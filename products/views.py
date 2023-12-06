@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.contrib import messages
@@ -89,5 +90,5 @@ class ProductDislikeView(LoginRequiredMixin, View):
 
 class CategoryListView(View):
     def get(self, request, category_pk):
-        category = get_object_or_404(ProductsCategory, pk=category_pk)
+        category = get_object_or_404(ProductsCategory.objects.prefetch_related(Prefetch('products', queryset=Product.objects.prefetch_related('comments'))), pk=category_pk)
         return render(request, 'products/category_list.html', {'category': category})

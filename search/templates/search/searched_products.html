@@ -1,0 +1,200 @@
+{% extends '-base.html' %}
+{% load tags %}
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Search Result' %}
+{% endblock %}
+
+{% block context %}
+    <div class="breadcrumb-area bg-gray">
+        <div class="container">
+            <div class="breadcrumb-content text-center">
+                <ul>
+                    <li>
+                        <a href="{% url 'products:product_list' %}">{% trans 'Home' %}</a>
+                    </li>
+                    <li class="active">{% trans 'Search Result' %} </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="pt-120 pb-115">
+        <div class="row">
+            {% if products %}
+                {% for product in products %}
+                    {% if product.is_discount %}
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="single-product-wrap mb-35">
+                                <div class="product-img product-img-zoom mb-15">
+                                    <a href="{% url 'products:product_detail' product.pk product.slug %}">
+                                        <img src="{{ product.main_cover.url }}"
+                                             alt="">
+                                    </a>
+                                    <span class="pro-badge left bg-red">-{{ product.discount_percent }}%</span>
+                                    <div class="product-action-2 tooltip-style-2">
+                                        <button title="Wishlist"><i class="icon-heart"></i></button>
+                                        <button title="Quick View" data-toggle="modal"
+                                                data-target="{{ product.get_absolute_url }}">
+                                            <i class="icon-size-fullscreen icons"></i></button>
+                                        <button title="Compare"><i class="icon-refresh"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap-2 text-center">
+                                    {% if product.average_rate > 0 %}
+                                        <div class="product-rating-wrap">
+                                            <div class="product-rating">
+                                                {% if product.average_rate > 0 %}
+                                                    <i class="icon_star"></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 1 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 2 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 3 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 4 %}
+                                                    <i class="icon_star"></i>
+                                                {% endif %}
+                                            </div>
+                                            <span>({{ product.comments.all|length }})</span>
+                                        </div>
+                                    {% endif %}
+                                    <h3>
+                                        <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
+                                    </h3>
+                                    <div class="product-price-2">
+                                        <span class="new-price">{% trans 'Toman' %}{{ product.total_price }}</span>
+                                        <span class="old-price">{% trans 'Toman' %}{{ product.og_price }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap-2 product-content-position text-center">
+                                    {% if product.average_rate > 0 %}
+                                        <div class="product-rating-wrap">
+                                            <div class="product-rating">
+                                                {% if product.average_rate > 0 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 1 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 2 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 3 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 4 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                            </div>
+                                            <span>({{ product.comments.all|length }})</span>
+                                        </div>
+                                    {% endif %}
+                                    <h3>
+                                        <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
+                                    </h3>
+                                    <div class="product-price-2">
+                                        <span class="new-price">{% trans 'Toman' %}{{ product.og_price }}</span>
+                                        <span class="old-price">{% trans 'Toman' %}{{ product.total_price }}</span>
+                                    </div>
+                                    <div class="pro-add-to-cart">
+                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+                            <div class="single-product-wrap mb-35">
+                                <div class="product-img product-img-zoom mb-15">
+                                    <a href="{% url 'products:product_detail' product.pk product.slug %}">
+                                        <img src="{{ product.main_cover.url }}"
+                                             alt="">
+                                    </a>
+                                    <div class="product-action-2 tooltip-style-2">
+                                        <button title="Wishlist"><i class="icon-heart"></i></button>
+                                        <button title="Quick View" data-toggle="modal"
+                                                data-target="#exampleModal">
+                                            <i class="icon-size-fullscreen icons"></i></button>
+                                        <button title="Compare"><i class="icon-refresh"></i></button>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap-2 text-center">
+                                    {% if product.average_rate > 0 %}
+                                        <div class="product-rating-wrap">
+                                            <div class="product-rating">
+                                                {% if product.average_rate > 0 %}
+                                                    <i class="icon_star"></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 1 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 2 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 3 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 4 %}
+                                                    <i class="icon_star"></i>
+                                                {% endif %}
+                                            </div>
+                                            <span>({{ product.comments.all|length }})</span>
+                                        </div>
+                                    {% endif %}
+                                    <h3>
+                                        <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
+                                    </h3>
+                                    <div class="product-price-2">
+                                        <span>{% trans 'Toman' %}{{ product.total_price }}</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap-2 product-content-position text-center">
+                                    {% if product.average_rate > 0 %}
+                                        <div class="product-rating-wrap">
+                                            <div class="product-rating">
+                                                {% if product.average_rate > 0 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 1 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 2 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 3 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                                {% if product.average_rate > 4 %}
+                                                    <i class="icon_star "></i>
+                                                {% endif %}
+                                            </div>
+                                            <span>({{ product.comments.all|length }})</span>
+                                        </div>
+                                    {% endif %}
+                                    <h3>
+                                        <a href="{% url 'products:product_detail' product.pk product.slug %}">{{ product.title }}</a>
+                                    </h3>
+                                    <div class="product-price-2">
+                                        <span>{% trans 'Toman' %}{{ product.total_price }}</span>
+                                    </div>
+                                    <div class="pro-add-to-cart">
+                                        <button title="Add to Cart">{% trans 'Add To Cart' %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+            {% else %}
+                <p>{% translate 'There is no result!' %}</p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
