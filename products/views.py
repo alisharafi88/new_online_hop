@@ -37,8 +37,13 @@ class ProductDetailView(View):
             if vote.exists():
                 is_liked = True
         return render(request, 'products/product_detail.html',
-                      {'product': product, 'category_products': p_category, 'comment_form': comment_form,
-                       'is_liked': is_liked, 'comments': comments})
+                      {'product': product,
+                       'category_products': p_category,
+                       'comment_form': comment_form,
+                       'is_liked': is_liked,
+                       'comments': comments,
+                       }
+                      )
 
 
 class ProductCommentView(LoginRequiredMixin, View):
