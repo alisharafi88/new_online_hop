@@ -71,8 +71,7 @@ class Product(models.Model):
     def is_discount(self):
         if self.discount_percent:
             return True
-        else:
-            return False
+        return False
 
     @property
     def average_rate(self):
